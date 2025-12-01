@@ -16,23 +16,17 @@ class PostController extends Controller
      * Display a listing of the resource.
      */
     public function index()
-    {
-        $user = auth()->user();
-
-        $query =  Post::with(['user', 'media'])
-            ->where('published_at', '<=', now())
-            ->withCount('claps')
-            ->latest();
-        if ($user) {
-            $ids = $user->following()->pluck('users.id');
-            $query->whereIn('user_id', $ids);
-        }
-
-        $posts = $query->simplePaginate(5);
-        return view('post.index', [
-            'posts' => $posts,
-        ]);
-    }
+{
+    $posts = Post::with(['user', 'media'])
+        ->where('published_at', '<=', now())
+        ->withCount('claps')
+        ->latest()
+        ->simplePaginate(5);
+        
+    return view('post.index', [
+        'posts' => $posts,
+    ]);
+}
 
     /**
      * Show the form for creating a new resource.

@@ -6,25 +6,21 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
-    public function up(): void
+    public function up()
     {
         Schema::create('claps', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('post_id')
-                ->constrained()->cascadeOnDelete();
-            $table->foreignId('user_id')
-                ->constrained()->cascadeOnDelete();
-            $table->timestamp('created_at')->nullable();
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->foreignId('post_id')->constrained()->onDelete('cascade');
+            $table->integer('claps_count')->default(1);
+            $table->timestamps();
+            
+            // Ensure a user can only clap once per post
+            $table->unique(['user_id', 'post_id']);
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
-    public function down(): void
+    public function down()
     {
         Schema::dropIfExists('claps');
     }

@@ -34,7 +34,14 @@
             'username' => $post->user->username,
             'post' => $post->slug
         ]) }}">
-        <img class="w-48 h-full max-h-64 object-cover rounded-r-lg" 
-        src="{{ $post->imageUrl() }}" alt="" />
+        @if ($post->getFirstMedia())
+            <img class="w-48 h-full max-h-64 object-cover rounded-r-lg" 
+                 src="/storage/{{ $post->getFirstMedia()->id }}/{{ $post->getFirstMedia()->file_name }}" 
+                 alt="{{ $post->title }}" />
+        @else
+            <div class="w-48 h-full max-h-64 bg-gray-200 rounded-r-lg flex items-center justify-center">
+                <span class="text-gray-400">No image</span>
+            </div>
+        @endif
     </a>
 </div>

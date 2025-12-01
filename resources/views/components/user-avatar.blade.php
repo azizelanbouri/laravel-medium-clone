@@ -1,9 +1,13 @@
 @props(['user', 'size' => 'w-12 h-12'])
 
-@if ($user->image)
-    <img src="{{ $user->imageUrl() }}" alt="{{ $user->name }}"
-        class="{{ $size }} rounded-full">
+@if ($user->getFirstMedia('avatar'))
+    <img src="{{ $user->getFirstMediaUrl('avatar', 'avatar') }}" 
+         alt="{{ $user->name }}"
+         class="{{ $size }} rounded-full">
 @else
-    <img src="https://cdn12.picryl.com/photo/2016/12/31/head-the-dummy-avatar-people-b61cdb-1024.png"
-        alt="Dummy avatar" class="{{ $size }} rounded-full">
+    <div class="{{ $size }} bg-gray-300 rounded-full flex items-center justify-center">
+        <span class="text-gray-600 font-bold text-sm">
+            {{ substr($user->name, 0, 1) }}
+        </span>
+    </div>
 @endif

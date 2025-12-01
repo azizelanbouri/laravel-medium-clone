@@ -52,14 +52,18 @@
                 <x-clap-button :post="$post" />
                 <!-- Clap Section -->
 
-                <!-- Content Section -->
-                <div class="mt-8">
-                    <img src="{{ $post->imageUrl() }}" alt="{{ $post->title }}" class="w-full">
+<!-- Content Section -->
+<div class="mt-8">
+    @if ($post->getFirstMedia())
+        <img src="/storage/{{ $post->getFirstMedia()->id }}/{{ $post->getFirstMedia()->file_name }}" 
+             alt="{{ $post->title }}" 
+             class="w-full">
+    @endif
 
-                    <div class="mt-4">
-                        {{ $post->content }}
-                    </div>
-                </div>
+    <div class="mt-4">
+        {{ $post->content }}
+    </div>
+</div>
 
                 <div class="mt-8">
                     <span class="px-4 py-2 bg-gray-200 rounded-2xl">
